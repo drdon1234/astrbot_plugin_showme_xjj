@@ -51,6 +51,7 @@ api:
     # download_url: 需要先下载到本地的媒体文件链接
     # 任何解析流程必须以 direct_url 或 download_url 结尾
     # 除以上关键字外的流程如 data 或 raw_url 代表网站返回的json具体元素，支持迭代解析响应
+
   video_api: # 视频接口
     # 视频版每日摸鱼，不适合作为随机视频
     # - url: "https://dayu.qqsuu.cn/moyuribaoshipin/apis.php?type=json"
