@@ -8,7 +8,6 @@ from typing import Dict, Any, Tuple, Optional
 
 
 async def get_url(api_config: Dict[str, Any], cache_folder: str) -> str:
-    """处理API管道流程，返回直接URL或下载文件的本地路径"""
     url = api_config["url"]
     pipeline_steps = api_config["pipeline"].split(" | ")
 
@@ -21,7 +20,6 @@ async def get_url(api_config: Dict[str, Any], cache_folder: str) -> str:
 
 
 async def download_file(url: str, cache_folder: str) -> str:
-    """下载文件并返回本地路径，准确确定文件扩展名"""
     os.makedirs(cache_folder, exist_ok=True)
     base_filename = str(uuid.uuid4())
 
@@ -77,7 +75,6 @@ async def download_file(url: str, cache_folder: str) -> str:
 
 
 async def process_pipeline(url: str, steps: list, cache_folder: str) -> str:
-    """处理完整的API管道流程"""
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
     }
@@ -158,7 +155,6 @@ async def download_file_with_session(session, url: str, cache_folder: str) -> st
 
 
 async def fetch_data(session, url: str) -> Tuple[str, Optional[Dict], Optional[str]]:
-    """发送请求并获取数据"""
     async with session.get(url, allow_redirects=True) as response:
         if response.status != 200:
             raise Exception(f"获取URL失败: {url}, 状态码: {response.status}")
