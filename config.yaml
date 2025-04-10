@@ -1,29 +1,29 @@
 platform:
   type: "napcat"
-  http_host: "127.0.0.1"
-  http_port: 2333
+  http_host: "192.168.5.2"
+  http_port: 13000
   api_token: ""
-  
+
 api:
   video_api:
     - url: "https://dayu.qqsuu.cn/moyuribaoshipin/apis.php?type=json"
       pipeline: "fetch | data | direct_url"
-    
+
     - url: "https://v2.api-m.com/api/meinv?return=302"
-      pipeline: "fetch | direct_url"
-    
+      pipeline: "direct_url"
+
     - url: "https://onexiaolaji.cn/RandomPicture/api/api-video.php"
       pipeline: "fetch | raw_url | download_url"
-    
+
     - url: "https://tucdn.wpon.cn/api-girl/index.php"
-      pipeline: "fetch | direct_url"
-    
+      pipeline: "direct_url"
+
     - url: "http://api.yujn.cn/api/zzxjj.php?type=video"
-      pipeline: "fetch | direct_url"
-  
+      pipeline: "direct_url"
+
   picture_api:
     - url: "https://api.zhcnli.cn/api/sjtp/tupian.php?type=hs"
-      pipeline: "fetch | direct_url"
+      pipeline: "direct_url"
 
 download:
   cache_folder: "/app/sharedFolder"
