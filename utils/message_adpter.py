@@ -1,14 +1,8 @@
 from astrbot.api.event import AstrMessageEvent
-import os
-import re
-import yaml
 import aiohttp
-import asyncio
 import logging
 from typing import Dict, List, Any, Optional, Union
 from pathlib import Path
-from natsort import natsorted
-from asyncio import Queue
 
 logger = logging.getLogger(__name__)
 
@@ -107,51 +101,48 @@ class MessageAdapter:
 
         return folder_id
 
-    async def upload_file(self, event: AstrMessageEvent, path: str, name: str = None, folder_name: str = '/') -> Dict[str, Any]:
-        # 检查文件是否存在
+    async def upload_file(self, event: AstrMessageEvent, path: str, name: str = None, folder_name: str = '/') -> Dict[
+        str, Any]:
         file_path = Path(path)
         if not file_path.exists():
             raise FileNotFoundError(f"文件不存在: {path}")
-        
-        # 如果没有提供name，使用原始文件名
+
         if name is None:
             file_name = file_path.name
         else:
             # 使用提供的name，并添加原文件的扩展名
             file_name = f"{name}{file_path.suffix}"
-        
+
         await event.send(event.plain_result(f"发送 {file_name} 中，请稍候..."))
-        
+
         is_private = event.is_private_chat()
         target_id = event.get_sender_id() if is_private else event.get_group_id()
         url_type = "upload_private_file" if is_private else "upload_group_file"
         url = f"http://{self.http_host}:{self.http_port}/{url_type}"
-        
+
         payload = {
             "file": str(file_path),
             "name": file_name,
             "user_id" if is_private else "group_id": target_id
         }
-        
+
         if not is_private:
             payload["folder_id"] = await self.get_group_folder_id(target_id, folder_name)
-        
-        # 整合原_upload_single_file的功能
+
         try:
             headers = self.get_headers()
             async with aiohttp.ClientSession() as session:
                 async with session.post(url, json=payload, headers=headers) as response:
                     response.raise_for_status()
                     res = await response.json()
-                    
+
                     if res["status"] != "ok":
                         result = {"success": False, "error": res.get("message")}
                     else:
                         result = {"success": True, "data": res.get("data")}
         except Exception as e:
             result = {"success": False, "error": str(e)}
-        
-        # 整合原_process_results的功能
+
         if result["success"]:
             successes = [result["data"]]
             errors = []
@@ -159,7 +150,7 @@ class MessageAdapter:
             successes = []
             errors = [result["error"]]
             logger.warning(f"文件上传失败: {result['error']}")
-        
+
         return {
             "total": 1,
             "success_count": len(successes),
