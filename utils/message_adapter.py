@@ -103,37 +103,29 @@ class MessageAdapter:
 
     async def upload_file(self, event: AstrMessageEvent, path: str, name: str = None, folder_name: str = '/') -> Dict[
         str, Any]:
-        # 检测是否为网络链接
         is_url = path.startswith(('http://', 'https://'))
         
         if is_url:
-            # 处理网络链接 - 直接将URL作为file参数
-            file_path = path  # 直接使用URL
-            
-            # 从URL中提取文件名，如果name未提供
+            file_path = path
+
             if name is None:
                 from urllib.parse import urlparse
                 url_path = urlparse(path).path
                 file_name = url_path.split('/')[-1] or "downloaded_file"
             else:
-                # 无法确定URL文件的后缀，直接使用提供的name
                 file_name = name
         else:
-            # 处理本地文件路径
             file_path = Path(path)
             if not file_path.exists():
                 raise FileNotFoundError(f"文件不存在: {path}")
             
-            # 确定文件名
             if name is None:
                 file_name = file_path.name
             else:
                 file_name = f"{name}{file_path.suffix}"
         
-        # 发送上传通知
         await event.send(event.plain_result(f"发送 {file_name} 中，请稍候..."))
-        
-        # 上传文件
+
         is_private = event.is_private_chat()
         target_id = event.get_sender_id() if is_private else event.get_group_id()
         url_type = "upload_private_file" if is_private else "upload_group_file"
