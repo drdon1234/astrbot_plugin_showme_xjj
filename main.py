@@ -44,5 +44,12 @@ class randomXJJPlugin(Star):
     async def random_picture(self, event: AstrMessageEvent):
         await self.get_random_media(event, "picture")
 
+    @filter.command("重载xjj配置")
+    async def reload_config(self, event: AstrMessageEvent):
+        await event.send(event.plain_result("正在重载配置参数"))
+        self.config = load_config(Path(__file__).parent / "config.yaml")
+        self.uploader = MessageAdapter(self.config)
+        await event.send(event.plain_result("已重载配置参数"))
+        
     async def terminate(self):
         pass
