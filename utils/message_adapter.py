@@ -107,7 +107,7 @@ class MessageAdapter:
         
         if is_url:
             file_path = path
-
+    
             if name is None:
                 from urllib.parse import urlparse
                 url_path = urlparse(path).path
@@ -123,20 +123,23 @@ class MessageAdapter:
                 file_name = file_path.name
             else:
                 file_name = f"{name}{file_path.suffix}"
-
+    
         is_private = event.is_private_chat()
         target_id = event.get_sender_id() if is_private else event.get_group_id()
-        url_type = "upload_private_file" if is_private else "upload_group_file"
+        url_type = "send_private_msg" if is_private else "send_group_msg"
         url = f"http://{self.http_host}:{self.http_port}/{url_type}"
         
         payload = {
-            "file": str(file_path),
-            "name": file_name,
-            "user_id" if is_private else "group_id": target_id
+            "user_id" if is_private else "group_id": target_id,
+            "message": [
+                {
+                    "type": "video",
+                    "data": {
+                        "file": str(file_path)
+                    }
+                }
+            ]
         }
-        
-        if not is_private:
-            payload["folder_id"] = await self.get_group_folder_id(target_id, folder_name)
         
         try:
             headers = self.get_headers()
