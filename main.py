@@ -7,7 +7,7 @@ import asyncio
 import json
 import logging
 
-@register("astrbot_plugin_showme_xjj", "drdon1234", "随机小姐姐视频", "1.0", "https://github.com/drdon1234/astrbot_plugin_showme_xjj")
+@register("astrbot_plugin_showme_xjj", "drdon1234", "随机小姐姐美图短视频", "1.0", "https://github.com/drdon1234/astrbot_plugin_showme_xjj")
 class randomXJJPlugin(Star):
     def __init__(self, context: Context):
         super().__init__(context)
