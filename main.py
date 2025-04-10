@@ -4,9 +4,6 @@ from .utils.config_manager import load_config
 from .utils.message_adapter import MessageAdapter
 from .utils.parser import get_url
 from pathlib import Path
-import aiohttp
-import asyncio
-import json
 import random
 
 
