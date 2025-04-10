@@ -1,7 +1,7 @@
 from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
 from astrbot.api.star import Context, Star, register
 from .utils.config_manager import load_config
-from .utils.message_adapter import upload_file
+from .utils.message_adapter import MessageAdapter
 import aiohttp
 import asyncio
 import json
@@ -14,6 +14,7 @@ class randomXJJPlugin(Star):
     def __init__(self, context: Context):
         super().__init__(context)
         self.config = load_config()
+        self.uploader = MessageAdapter(self.config)
 
     async def get_random_media(self, media_type="video"):
         cache_folder = Path(self.config['download']['cache_folder'])
