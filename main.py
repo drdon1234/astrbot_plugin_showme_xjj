@@ -8,7 +8,7 @@ import aiohttp
 import asyncio
 import json
 import random
-import logging
+
 
 @register("astrbot_plugin_showme_xjj", "drdon1234", "随机小姐姐美图短视频", "1.0")
 class randomXJJPlugin(Star):
