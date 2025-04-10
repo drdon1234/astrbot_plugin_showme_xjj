@@ -14,14 +14,14 @@ class randomXJJPlugin(Star):
         self.config = load_config(Path(__file__).parent / "config.yaml")
         self.uploader = MessageAdapter(self.config)
 
-    async def get_random_media(self, event: AstrMessageEvent, media_type="video"):
+    async def get_random_media(self, event: AstrMessageEvent, media_type):
         cache_folder = Path(self.config['download']['cache_folder'])
         cache_folder.mkdir(exist_ok=True, parents=True)
         if media_type == "video":
             text = "视频"
             ext = "mp4"
             api_list = self.config["api"]["video_api"]
-        elif media_type == "picture":
+        elif media_type == "image":
             text = "图片"
             ext = "jpg"
             api_list = self.config["api"]["picture_api"]
@@ -32,7 +32,7 @@ class randomXJJPlugin(Star):
         result = await get_url(api_config, cache_folder)
         try:
             await event.send(event.plain_result(f"xjj{text}正在赶来的路上..."))
-            await self.uploader.upload_file(event, result, f"xjj{text}.{ext}")
+            await self.uploader.upload_file(event, result, f"xjj{text}.{ext}", media_type)
         except Exception as e:
             await event.send(event.plain_result(f"获取随机视频失败: {e}"))
     
@@ -42,7 +42,7 @@ class randomXJJPlugin(Star):
 
     @filter.command("xjj图片")
     async def random_picture(self, event: AstrMessageEvent):
-        await self.get_random_media(event, "picture")
+        await self.get_random_media(event, "image")
 
     @filter.command("xjj")
     async def xjj_helper(self, event: AstrMessageEvent):
