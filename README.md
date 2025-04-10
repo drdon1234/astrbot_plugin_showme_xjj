@@ -26,6 +26,12 @@ https://github.com/drdon1234/astrbot_plugin_showme_xjj
 - **随机美图**  
 ```xjj图片```
 
+- **获取指令帮助**  
+```xjj```
+
+- **热重载config配置**  
+```重载xjj配置```
+
 ---
 
 ## 配置文件修改（重要！）
