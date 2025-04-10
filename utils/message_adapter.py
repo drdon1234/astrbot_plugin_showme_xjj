@@ -103,45 +103,58 @@ class MessageAdapter:
 
     async def upload_file(self, event: AstrMessageEvent, path: str, name: str = None, folder_name: str = '/') -> Dict[
         str, Any]:
-        file_path = Path(path)
-        if not file_path.exists():
-            raise FileNotFoundError(f"文件不存在: {path}")
-
-        if name is None:
-            file_name = file_path.name
+        is_url = path.startswith(('http://', 'https://'))
+        
+        if is_url:
+            file_path = path
+            
+            if name is None:
+                from urllib.parse import urlparse
+                url_path = urlparse(path).path
+                file_name = "direcr_url"
+            else:
+                file_name = name
         else:
-            file_name = f"{name}{file_path.suffix}"
-
+            file_path = Path(path)
+            if not file_path.exists():
+                raise FileNotFoundError(f"文件不存在: {path}")
+            
+            if name is None:
+                file_name = file_path.name
+            else:
+                file_name = f"{name}{file_path.suffix}"
+        
         await event.send(event.plain_result(f"发送 {file_name} 中，请稍候..."))
-
+        
         is_private = event.is_private_chat()
         target_id = event.get_sender_id() if is_private else event.get_group_id()
         url_type = "upload_private_file" if is_private else "upload_group_file"
         url = f"http://{self.http_host}:{self.http_port}/{url_type}"
-
+        
         payload = {
             "file": str(file_path),
             "name": file_name,
             "user_id" if is_private else "group_id": target_id
         }
-
+        
         if not is_private:
             payload["folder_id"] = await self.get_group_folder_id(target_id, folder_name)
-
+        
         try:
             headers = self.get_headers()
             async with aiohttp.ClientSession() as session:
                 async with session.post(url, json=payload, headers=headers) as response:
                     response.raise_for_status()
                     res = await response.json()
-
+                    
                     if res["status"] != "ok":
                         result = {"success": False, "error": res.get("message")}
                     else:
                         result = {"success": True, "data": res.get("data")}
         except Exception as e:
             result = {"success": False, "error": str(e)}
-
+            logger.warning(f"文件上传失败: {e}")
+        
         if result["success"]:
             successes = [result["data"]]
             errors = []
@@ -149,7 +162,7 @@ class MessageAdapter:
             successes = []
             errors = [result["error"]]
             logger.warning(f"文件上传失败: {result['error']}")
-
+        
         return {
             "total": 1,
             "success_count": len(successes),
