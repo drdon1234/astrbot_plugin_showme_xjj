@@ -7,7 +7,7 @@ from pathlib import Path
 import random
 
 
-@register("astrbot_plugin_showme_xjj", "drdon1234", "随机小姐姐美图短视频", "1.0")
+@register("astrbot_plugin_showme_xjj", "drdon1234", "随机小姐姐美图短视频", "1.1")
 class randomXJJPlugin(Star):
     def __init__(self, context: Context):
         super().__init__(context)
