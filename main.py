@@ -32,18 +32,16 @@ class randomXJJPlugin(Star):
         result = await get_url(api_config, cache_folder)
         try:
             await event.send(event.plain_result(f"xjj{text}正在赶来的路上，请接收..."))
-            await self.uploader.upload_file(event, result)
+            await self.uploader.upload_file(event, result, f"xjj{text}")
         except Exception as e:
             await event.send(event.plain_result(f"获取随机视频失败: {e}"))
     
     @filter.command("xjj视频")
     async def random_video(self, event: AstrMessageEvent):
-        await event.send(event.plain_result("随机xjj中，请稍后..."))
         await self.get_random_media(event, "video")
 
     @filter.command("xjj图片")
     async def random_picture(self, event: AstrMessageEvent):
-        await event.send(event.plain_result("随机xjj中，请稍后..."))
         await self.get_random_media(event, "picture")
 
     async def terminate(self):
