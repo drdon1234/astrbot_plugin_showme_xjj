@@ -46,7 +46,7 @@ class randomXJJPlugin(Star):
 
     @filter.command("xjj")
     async def xjj_helper(self, event: AstrMessageEvent):
-        help_text = """eh指令帮助：
+        help_text = """xjj指令帮助：
 [1] 随机短视频: xjj视频
 [2] 随机美图: xjj图片
 [3] 获取指令帮助: xjj
