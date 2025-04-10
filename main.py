@@ -29,11 +29,10 @@ class randomXJJPlugin(Star):
             raise ValueError(f"不支持的媒体类型: {media_type}")
     
         api_config = random.choice(api_list)
-        cache_folder = self.config["download"]["cache_folder"]
         result = await get_url(api_config, cache_folder)
         try:
             await event.send(event.plain_result(f"xjj{text}正在赶来的路上，请接收..."))
-            await self.uploader.upload_file(event, event, video_url)
+            await self.uploader.upload_file(event, result)
         except Exception as e:
             await event.send(event.plain_result(f"获取随机视频失败: {e}"))
     
