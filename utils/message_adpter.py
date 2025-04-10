@@ -107,80 +107,61 @@ class MessageAdapter:
 
         return folder_id
 
-    async def upload_file(self, event: AstrMessageEvent, path: str, name: str, folder_name: str = '/') -> Dict[str, Any]:
-        await event.send(event.plain_result(f"发送 {name} 中，请稍候..."))
-
-        all_files = os.listdir(path)
-        pattern = re.compile(rf"^{re.escape(name)}(?: part \d+)?\.pdf$")
-        matching_files = [
-            os.path.join(path, f) for f in all_files if pattern.match(f)
-        ]
-
-        files = natsorted(matching_files)
-        if not files:
-            raise FileNotFoundError("未找到符合命名的文件")
-
+    async def upload_file(self, event: AstrMessageEvent, path: str, name: str = None, folder_name: str = '/') -> Dict[str, Any]:
+        # 检查文件是否存在
+        file_path = Path(path)
+        if not file_path.exists():
+            raise FileNotFoundError(f"文件不存在: {path}")
+        
+        # 如果没有提供name，使用原始文件名
+        if name is None:
+            file_name = file_path.name
+        else:
+            # 使用提供的name，并添加原文件的扩展名
+            file_name = f"{name}{file_path.suffix}"
+        
+        await event.send(event.plain_result(f"发送 {file_name} 中，请稍候..."))
+        
         is_private = event.is_private_chat()
         target_id = event.get_sender_id() if is_private else event.get_group_id()
         url_type = "upload_private_file" if is_private else "upload_group_file"
         url = f"http://{self.http_host}:{self.http_port}/{url_type}"
-
-        base_payload = {
-            "file": None,
-            "name": None,
+        
+        payload = {
+            "file": str(file_path),
+            "name": file_name,
             "user_id" if is_private else "group_id": target_id
         }
-
+        
         if not is_private:
-            base_payload["folder_id"] = await self.get_group_folder_id(target_id, folder_name)
-
-        queue = Queue()
-
-        async def worker():
-            async with aiohttp.ClientSession() as session:
-                while not queue.empty():
-                    file = await queue.get()
-                    payload = base_payload.copy()
-                    payload.update({
-                        "file": file,
-                        "name": os.path.basename(file)
-                    })
-                    result = await self._upload_single_file(session, url, self.get_headers(), payload)
-                    results.append(result)
-                    queue.task_done()
-
-        for file in files:
-            await queue.put(file)
-
-        results = []
-        workers = [worker() for _ in range(1)]
-        await asyncio.gather(*workers)
-
-        return self._process_results(results)
-
-    async def _upload_single_file(self, session: aiohttp.ClientSession, url: str,
-                                  headers: Dict[str, str], payload: Dict[str, Any]) -> Dict[str, Any]:
+            payload["folder_id"] = await self.get_group_folder_id(target_id, folder_name)
+        
+        # 整合原_upload_single_file的功能
         try:
-            async with session.post(url, json=payload, headers=headers) as response:
-                response.raise_for_status()
-                res = await response.json()
-
-                if res["status"] != "ok":
-                    return {"success": False, "error": res.get("message")}
-
-                return {"success": True, "data": res.get("data")}
+            headers = self.get_headers()
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=payload, headers=headers) as response:
+                    response.raise_for_status()
+                    res = await response.json()
+                    
+                    if res["status"] != "ok":
+                        result = {"success": False, "error": res.get("message")}
+                    else:
+                        result = {"success": True, "data": res.get("data")}
         except Exception as e:
-            return {"success": False, "error": str(e)}
-
-    def _process_results(self, results: List[Dict[str, Any]]) -> Dict[str, Any]:
-        successes = [r["data"] for r in results if r["success"]]
-        errors = [r["error"] for r in results if not r["success"]]
-
-        if errors:
-            logger.warning(f"部分文件上传失败: {errors}")
-
+            result = {"success": False, "error": str(e)}
+        
+        # 整合原_process_results的功能
+        if result["success"]:
+            successes = [result["data"]]
+            errors = []
+        else:
+            successes = []
+            errors = [result["error"]]
+            logger.warning(f"文件上传失败: {result['error']}")
+        
         return {
-            "total": len(results),
+            "total": 1,
             "success_count": len(successes),
             "failed_count": len(errors),
             "details": {
