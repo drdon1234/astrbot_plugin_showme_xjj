@@ -38,10 +38,12 @@ class randomXJJPlugin(Star):
     
     @filter.command("xjj视频")
     async def moyu_daily(self, event: AstrMessageEvent):
+        await event.send(event.plain_result("随机xjj中，请稍后..."))
         await self.get_random_media(event, "video")
 
     @filter.command("xjj图片")
     async def moyu_daily(self, event: AstrMessageEvent):
+        await event.send(event.plain_result("随机xjj中，请稍后..."))
         await self.get_random_media(event, "picture")
 
     async def terminate(self):
