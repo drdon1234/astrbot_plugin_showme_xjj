@@ -44,7 +44,7 @@ class randomXJJPlugin(Star):
     async def random_picture(self, event: AstrMessageEvent):
         await self.get_random_media(event, "picture")
 
-    @filter.command("重载xjj配置")
+    @filter.command("xjj")
     async def xjj_helper(self, event: AstrMessageEvent):
         help_text = """eh指令帮助：
 [1] 随机短视频: xjj视频
