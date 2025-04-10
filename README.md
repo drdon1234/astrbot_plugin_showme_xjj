@@ -41,6 +41,17 @@ platform:
   api_token: "" # HTTP 服务器 token，没有则不填
 ```
 
+### 接口设置
+```
+
+```
+
+### 缓存设置
+```
+download:
+  cache_folder: "/app/sharedFolder" # 媒体文件需要下载时使用的保存路径
+```
+
 ---
 
 ## 依赖库安装（重要！）
