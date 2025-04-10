@@ -40,3 +40,17 @@ platform:
   http_port: 2333 # HTTP 服务器端口，通常为 2333 或 3000
   api_token: "" # HTTP 服务器 token，没有则不填
 ```
+
+---
+
+## 依赖库安装（重要！）
+
+使用前请先安装以下依赖库：
+- aiohttp
+- PyYAML
+
+在你的终端输入以下命令并回车：
+```
+pip install <module>
+```
+*使用具体模块名替换 &lt;module&gt;*
