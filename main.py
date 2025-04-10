@@ -11,7 +11,7 @@ import logging
 class randomXJJPlugin(Star):
     def __init__(self, context: Context):
         super().__init__(context)
-        self.config = load_config()
+        self.config = load_config(Path(__file__).parent / "config.yaml")
         self.uploader = MessageAdapter(self.config)
 
     async def get_random_media(self, event: AstrMessageEvent, media_type="video"):
