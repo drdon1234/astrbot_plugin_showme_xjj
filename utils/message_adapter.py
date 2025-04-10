@@ -101,7 +101,7 @@ class MessageAdapter:
 
         return folder_id
 
-    async def upload_file(self, event: AstrMessageEvent, path: str, name: str = None, folder_name: str = '/') -> Dict[
+    async def upload_file(self, event: AstrMessageEvent, path: str, name: str = None, type = "video", folder_name: str = '/') -> Dict[
         str, Any]:
         is_url = path.startswith(('http://', 'https://'))
         
@@ -133,7 +133,7 @@ class MessageAdapter:
             "user_id" if is_private else "group_id": target_id,
             "message": [
                 {
-                    "type": "video",
+                    "type": type,
                     "data": {
                         "file": str(file_path)
                     }
