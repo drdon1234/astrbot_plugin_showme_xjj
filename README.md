@@ -43,7 +43,39 @@ platform:
 
 ### 接口设置
 ```
+api:
+  # url: 接口url
+  # pipeline: 解析流程
+    # fetch: 需要解析网站响应
+    # direct_url: 能够直接发送到qq的媒体文件链接
+    # download_url: 需要先下载到本地的媒体文件链接
+    # 任何解析流程必须以 direct_url 或 download_url 结尾
+    # 除以上关键字外的流程如 data 或 raw_url 代表网站返回的json具体元素，支持迭代解析响应
+  video_api: # 视频接口
+    # 视频版每日摸鱼，不适合作为随机视频
+    # - url: "https://dayu.qqsuu.cn/moyuribaoshipin/apis.php?type=json"
+    #   pipeline: "fetch | data | direct_url"
 
+    # 小姐姐质量和画质都不错，建议
+    - url: "https://v2.api-m.com/api/meinv?return=302"
+      pipeline: "direct_url"
+
+    # 需要下载且小姐姐质量和画质都比较一般，不建议
+    # - url: "https://onexiaolaji.cn/RandomPicture/api/api-video.php"
+    #   pipeline: "fetch | raw_url | download_url"
+
+    # 小姐姐质量和画质都比较一般，不建议
+    # - url: "https://tucdn.wpon.cn/api-girl/index.php"
+    #   pipeline: "direct_url"
+
+    # 小姐姐质量和画质都不错，建议
+    - url: "http://api.yujn.cn/api/zzxjj.php?type=video"
+      pipeline: "direct_url"
+
+  picture_api: # 图片接口
+    # 暂时只找到一个图片接口
+    - url: "https://api.zhcnli.cn/api/sjtp/tupian.php?type=hs"
+      pipeline: "direct_url"
 ```
 
 ### 缓存设置
