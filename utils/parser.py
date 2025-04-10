@@ -97,7 +97,7 @@ async def process_pipeline(url: str, steps: list, cache_folder: str) -> str:
 
                 current_url, current_data = extract_field(current_data, step, current_url)
 
-    raise Exception("管道流程未以direct_url或download_url结束")
+    raise Exception("流程未以direct_url或download_url结束")
 
 
 async def download_file_with_session(session, url: str, cache_folder: str) -> str:
