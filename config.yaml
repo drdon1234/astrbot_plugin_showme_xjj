@@ -12,8 +12,8 @@ api:
     - url: "https://v2.api-m.com/api/meinv?return=302"
       pipeline: "direct_url"
 
-    - url: "https://onexiaolaji.cn/RandomPicture/api/api-video.php"
-      pipeline: "fetch | raw_url | download_url"
+    # - url: "https://onexiaolaji.cn/RandomPicture/api/api-video.php"
+    #   pipeline: "fetch | raw_url | download_url"
 
     - url: "https://tucdn.wpon.cn/api-girl/index.php"
       pipeline: "direct_url"
