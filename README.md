@@ -47,7 +47,7 @@ api:
   # url: 接口url
   # pipeline: 解析流程
     # fetch: 需要解析网站响应
-    # direct_url: 能够直接发送到qq的媒体文件链接
+    # direct_url: 媒体文件直链，QQ手机端可以免下载浏览
     # download_url: 需要先下载到本地的媒体文件链接
     # 任何解析流程必须以 direct_url 或 download_url 结尾
     # 除以上关键字外的流程如 data 或 raw_url 代表网站返回的json具体元素，支持迭代解析响应
