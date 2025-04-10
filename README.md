@@ -106,3 +106,23 @@ download:
 pip install <module>
 ```
 *使用具体模块名替换 &lt;module&gt;*
+
+---
+
+## Docker 部署注意事项
+
+如果您是 Docker 部署，请务必为消息平台容器挂载 PDF 文件所在的文件夹，否则消息平台将无法解析文件路径。
+
+示例挂载方式(NapCat)：
+- 对 LangBot：`/vol3/1000/dockerSharedFolder -> /app/sharedFolder`
+- 对 NapCat：`/vol3/1000/dockerSharedFolder -> /app/sharedFolder`
+
+---
+
+## 已知 BUG
+
+---
+
+## 开发中的功能
+
+---
