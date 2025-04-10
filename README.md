@@ -101,7 +101,7 @@ download:
 - aiohttp
 - PyYAML
 
-在你的终端输入以下命令并回车：
+在您的终端输入以下命令并回车：
 ```
 pip install <module>
 ```
