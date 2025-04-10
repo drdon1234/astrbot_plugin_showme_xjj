@@ -7,6 +7,7 @@ import asyncio
 import json
 import logging
 
+upload_file(self, event: AstrMessageEvent, path: str, name: str = None, folder_name: str = '/')
 
 @register("astrbot_plugin_showme_xjj", "drdon1234", "随机小姐姐视频", "1.0", "https://github.com/drdon1234/astrbot_plugin_showme_xjj")
 class randomXJJPlugin(Star):
@@ -30,6 +31,8 @@ class randomXJJPlugin(Star):
     
     @filter.command("xjj视频")
     async def moyu_daily(self, event: AstrMessageEvent):
+        cache_folder = Path(self.config['output']['cache_folder'])
+        cache_folder.mkdir(exist_ok=True, parents=True)
         try:
             video_url = await get_random_media("video")
             print(f"随机视频: {video_url}")
