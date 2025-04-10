@@ -16,6 +16,8 @@ class randomXJJPlugin(Star):
         self.config = load_config()
 
     async def get_random_media(self, media_type="video"):
+        cache_folder = Path(self.config['download']['cache_folder'])
+        cache_folder.mkdir(exist_ok=True, parents=True)
         if media_type == "video":
             api_list = self.config["api"]["video_api"]
         elif media_type == "picture":
@@ -31,21 +33,22 @@ class randomXJJPlugin(Star):
     
     @filter.command("xjj视频")
     async def moyu_daily(self, event: AstrMessageEvent):
-        cache_folder = Path(self.config['output']['cache_folder'])
+        cache_folder = Path(self.config['download']['cache_folder'])
         cache_folder.mkdir(exist_ok=True, parents=True)
         try:
             video_url = await get_random_media("video")
-            print(f"随机视频: {video_url}")
+            await event.send(event.plain_result("xjj视频正在赶来的路上，请接收..."))
+            await upload_file
         except Exception as e:
-            print(f"获取视频失败: {e}")
+            await event.send(event.plain_result(f"获取随机视频失败: {e}"))
 
     @filter.command("xjj图片")
     async def moyu_daily(self, event: AstrMessageEvent):
         try:
             picture_url = await get_random_media("picture")
-            print(f"随机图片: {picture_url}")
+            await event.send(event.plain_result("xjj图片正在赶来的路上，请接收..."))
         except Exception as e:
-            print(f"获取图片失败: {e}")
+            await event.send(event.plain_result(f"获取随机图片失败: {e}"))
 
     
     
