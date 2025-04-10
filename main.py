@@ -45,6 +45,15 @@ class randomXJJPlugin(Star):
         await self.get_random_media(event, "picture")
 
     @filter.command("重载xjj配置")
+    async def xjj_helper(self, event: AstrMessageEvent):
+        help_text = """eh指令帮助：
+[1] 随机短视频: xjj视频
+[2] 随机美图: xjj图片
+[3] 获取指令帮助: xjj
+[4] 热重载config相关参数: 重载xjj配置"""
+        await event.send(event.plain_result(help_text))
+    
+    @filter.command("重载xjj配置")
     async def reload_config(self, event: AstrMessageEvent):
         await event.send(event.plain_result("正在重载配置参数"))
         self.config = load_config(Path(__file__).parent / "config.yaml")
