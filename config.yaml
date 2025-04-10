@@ -7,13 +7,13 @@ platform:
 api:
   video_api:
     - url: "https://dayu.qqsuu.cn/moyuribaoshipin/apis.php?type=json"
-      pipeline: "fetch | json | data | direct_url"
+      pipeline: "fetch | data | direct_url"
     
     - url: "https://v2.api-m.com/api/meinv?return=302"
       pipeline: "fetch | direct_url"
     
     - url: "https://onexiaolaji.cn/RandomPicture/api/api-video.php"
-      pipeline: "fetch | json | raw_url | download_url"
+      pipeline: "fetch | raw_url | download_url"
     
     - url: "https://tucdn.wpon.cn/api-girl/index.php"
       pipeline: "fetch | direct_url"
