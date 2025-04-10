@@ -6,8 +6,8 @@ platform:
 
 api:
   video_api:
-    - url: "https://dayu.qqsuu.cn/moyuribaoshipin/apis.php?type=json"
-      pipeline: "fetch | data | direct_url"
+    # - url: "https://dayu.qqsuu.cn/moyuribaoshipin/apis.php?type=json"
+    #   pipeline: "fetch | data | direct_url"
 
     - url: "https://v2.api-m.com/api/meinv?return=302"
       pipeline: "direct_url"
