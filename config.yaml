@@ -1,6 +1,29 @@
 platform:
-  type: "napcat" # 消息平台，兼容napcat, llonebot, lagrange
-  http_host: "127.0.0.1" # http服务器ip，非docker部署一般为127.0.0.1，docker部署一般为宿主机局域网ip
-  http_port: 2333 # http服务器端口，通常为2333或3000
-  api_token: "" # http服务器token，没有则不填
+  type: "napcat"
+  http_host: "127.0.0.1"
+  http_port: 2333
+  api_token: ""
   
+api:
+  video_api:
+    - url: "https://dayu.qqsuu.cn/moyuribaoshipin/apis.php?type=json"
+      pipeline: "fetch | json | data | direct_url"
+    
+    - url: "https://v2.api-m.com/api/meinv?return=302"
+      pipeline: "fetch | direct_url"
+    
+    - url: "https://onexiaolaji.cn/RandomPicture/api/api-video.php"
+      pipeline: "fetch | json | raw_url | download_url"
+    
+    - url: "https://tucdn.wpon.cn/api-girl/index.php"
+      pipeline: "fetch | direct_url"
+    
+    - url: "http://api.yujn.cn/api/zzxjj.php?type=video"
+      pipeline: "fetch | direct_url"
+  
+  picture_api:
+    - url: "https://api.zhcnli.cn/api/sjtp/tupian.php?type=hs"
+      pipeline: "fetch | direct_url"
+
+download:
+  cache_folder: "/app/sharedFolder"
