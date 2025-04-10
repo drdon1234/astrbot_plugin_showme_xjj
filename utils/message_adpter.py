@@ -157,3 +157,34 @@ class MessageAdapter:
         await asyncio.gather(*workers)
 
         return self._process_results(results)
+
+    async def _upload_single_file(self, session: aiohttp.ClientSession, url: str,
+                                  headers: Dict[str, str], payload: Dict[str, Any]) -> Dict[str, Any]:
+        try:
+            async with session.post(url, json=payload, headers=headers) as response:
+                response.raise_for_status()
+                res = await response.json()
+
+                if res["status"] != "ok":
+                    return {"success": False, "error": res.get("message")}
+
+                return {"success": True, "data": res.get("data")}
+        except Exception as e:
+            return {"success": False, "error": str(e)}
+
+    def _process_results(self, results: List[Dict[str, Any]]) -> Dict[str, Any]:
+        successes = [r["data"] for r in results if r["success"]]
+        errors = [r["error"] for r in results if not r["success"]]
+
+        if errors:
+            logger.warning(f"部分文件上传失败: {errors}")
+
+        return {
+            "total": len(results),
+            "success_count": len(successes),
+            "failed_count": len(errors),
+            "details": {
+                "successes": successes,
+                "errors": errors
+            }
+        }
