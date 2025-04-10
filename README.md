@@ -1,9 +1,1 @@
-# helloworld
-
-AstrBot 插件模板
-
-A template plugin for AstrBot plugin feature
-
-# 支持
-
-[帮助文档](https://astrbot.app)
+# 适配 AstrBot 的随机美女短视频插件
