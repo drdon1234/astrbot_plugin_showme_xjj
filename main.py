@@ -6,6 +6,7 @@ from pathlib import Path
 import aiohttp
 import asyncio
 import json
+import random
 import logging
 
 @register("astrbot_plugin_showme_xjj", "drdon1234", "随机小姐姐美图短视频", "1.0")
@@ -37,12 +38,12 @@ class randomXJJPlugin(Star):
             await event.send(event.plain_result(f"获取随机视频失败: {e}"))
     
     @filter.command("xjj视频")
-    async def moyu_daily(self, event: AstrMessageEvent):
+    async def random_video(self, event: AstrMessageEvent):
         await event.send(event.plain_result("随机xjj中，请稍后..."))
         await self.get_random_media(event, "video")
 
     @filter.command("xjj图片")
-    async def moyu_daily(self, event: AstrMessageEvent):
+    async def random_picture(self, event: AstrMessageEvent):
         await event.send(event.plain_result("随机xjj中，请稍后..."))
         await self.get_random_media(event, "picture")
 
