@@ -123,8 +123,6 @@ class MessageAdapter:
                 file_name = file_path.name
             else:
                 file_name = f"{name}{file_path.suffix}"
-        
-        await event.send(event.plain_result(f"发送 {file_name} 中，请稍候..."))
 
         is_private = event.is_private_chat()
         target_id = event.get_sender_id() if is_private else event.get_group_id()
