@@ -110,7 +110,6 @@ class MessageAdapter:
         if name is None:
             file_name = file_path.name
         else:
-            # 使用提供的name，并添加原文件的扩展名
             file_name = f"{name}{file_path.suffix}"
 
         await event.send(event.plain_result(f"发送 {file_name} 中，请稍候..."))
