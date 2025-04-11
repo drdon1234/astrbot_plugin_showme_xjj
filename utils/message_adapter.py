@@ -149,27 +149,18 @@ class MessageAdapter:
                     res = await response.json()
                     
                     if res["status"] != "ok":
-                        result = {"success": False, "error": res.get("message")}
-                    else:
-                        result = {"success": True, "data": res.get("data")}
+                        logger.warning(f"文件上传失败: {res.get('message')}")
+                        raise Exception(f"API返回错误: {res.get('message')}")
+                    
+                    return {
+                        "total": 1,
+                        "success_count": 1,
+                        "failed_count": 0,
+                        "details": {
+                            "successes": [res.get("data")],
+                            "errors": []
+                        }
+                    }
         except Exception as e:
-            result = {"success": False, "error": str(e)}
             logger.warning(f"文件上传失败: {e}")
-        
-        if result["success"]:
-            successes = [result["data"]]
-            errors = []
-        else:
-            successes = []
-            errors = [result["error"]]
-            logger.warning(f"文件上传失败: {result['error']}")
-        
-        return {
-            "total": 1,
-            "success_count": len(successes),
-            "failed_count": len(errors),
-            "details": {
-                "successes": successes,
-                "errors": errors
-            }
-        }
+            raise  # 重新抛出异常给调用者
