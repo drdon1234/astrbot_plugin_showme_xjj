@@ -1,8 +1,8 @@
 from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
 from astrbot.api.star import Context, Star, register
-from utils.config_manager import load_config
-from utils.message_adapter import MessageAdapter
-from utils.parser import get_url
+from .utils.config_manager import load_config
+from .utils.message_adapter import MessageAdapter
+from .utils.parser import get_url
 from pathlib import Path
 import random
 
