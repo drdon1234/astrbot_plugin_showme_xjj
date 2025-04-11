@@ -60,7 +60,7 @@ api:
       # 任何解析流程必须以 direct_url 或 download_url 结尾
       # 除以上关键字外的流程如 data 或 raw_url 代表网站返回的json具体元素，支持迭代解析响应
     
-  video_api: # 视频接口
+  video_api:
     # 小姐姐质量和画质都不错，建议
     - url: "https://v2.api-m.com/api/meinv?return=302"
       pipeline: "direct_url"
@@ -81,7 +81,7 @@ api:
     # - url: "https://tucdn.wpon.cn/api-girl/index.php"
     #   pipeline: "direct_url"
 
-  picture_api: # 图片接口
+  picture_api:
     # 暂时只找到一个图片接口
     - url: "https://api.zhcnli.cn/api/sjtp/tupian.php?type=hs"
       pipeline: "direct_url"
