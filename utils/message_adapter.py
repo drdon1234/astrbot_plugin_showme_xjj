@@ -163,4 +163,4 @@ class MessageAdapter:
                     }
         except Exception as e:
             logger.warning(f"文件上传失败: {e}")
-            await event.send(event.plain_result(e))
+            raise
