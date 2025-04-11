@@ -23,6 +23,10 @@ api:
     # 小姐姐质量和画质都不错，建议
     - url: "http://api.yujn.cn/api/zzxjj.php?type=video"
       pipeline: "direct_url"
+
+    # 小姐姐质量和画质都不错，建议
+    - url: "https://api.wwlww.org/v1/get_video"
+      pipeline: "fetch | url | direct_url"
       
     # 视频版每日摸鱼，不适合作为随机视频
     # - url: "https://dayu.qqsuu.cn/moyuribaoshipin/apis.php?type=json"
