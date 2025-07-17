@@ -40,16 +40,18 @@ class randomXJJPlugin(Star):
     async def random_video(self, event: AstrMessageEvent):
         is_private = event.is_private_chat()
         sender_id = event.get_sender_id() if is_private else event.get_group_id()
-        if not self.config["whitelist"]["user"] or
+        if (not self.config["whitelist"]["user"] or
             (is_private and sender_id in self.config["whitelist"]["user"]) or
-            (not is_private and sender_id in self.config["whitelist"]["group"]):
+            (not is_private and sender_id in self.config["whitelist"]["group"])):
             await self.get_random_media(event, "video")
 
     @filter.command("xjj图片")
     async def random_picture(self, event: AstrMessageEvent):
-        if not self.config["whitelist"]["user"] or
+        is_private = event.is_private_chat()
+        sender_id = event.get_sender_id() if is_private else event.get_group_id()
+        if (not self.config["whitelist"]["user"] or
             (is_private and sender_id in self.config["whitelist"]["user"]) or
-            (not is_private and sender_id in self.config["whitelist"]["group"]):
+            (not is_private and sender_id in self.config["whitelist"]["group"])):
             await self.get_random_media(event, "image")
 
     @filter.command("xjj")
