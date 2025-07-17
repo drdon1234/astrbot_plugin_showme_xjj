@@ -41,8 +41,8 @@ class randomXJJPlugin(Star):
         is_private = event.is_private_chat()
         sender_id = event.get_sender_id() if is_private else event.get_group_id()
         if (not self.config["whitelist"]["enable"] or
-            (is_private and sender_id in self.config["whitelist"]["user"]) or
-            (not is_private and sender_id in self.config["whitelist"]["group"])):
+            (is_private and sender_id in str(self.config["whitelist"]["user"])) or
+            (not is_private and sender_id in str(self.config["whitelist"]["group"]))):
             await self.get_random_media(event, "video")
         else:
             await event.send(event.plain_result("您或您的群组不在白名单列表，请联系管理员..."))
@@ -52,8 +52,8 @@ class randomXJJPlugin(Star):
         is_private = event.is_private_chat()
         sender_id = event.get_sender_id() if is_private else event.get_group_id()
         if (not self.config["whitelist"]["enable"] or
-            (is_private and sender_id in self.config["whitelist"]["user"]) or
-            (not is_private and sender_id in self.config["whitelist"]["group"])):
+            (is_private and sender_id in str(self.config["whitelist"]["user"])) or
+            (not is_private and sender_id in str(self.config["whitelist"]["group"]))):
             await self.get_random_media(event, "image")
         else:
             await event.send(event.plain_result("您或您的群组不在白名单列表，请联系管理员..."))
