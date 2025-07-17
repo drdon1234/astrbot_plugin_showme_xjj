@@ -44,6 +44,8 @@ class randomXJJPlugin(Star):
             (is_private and sender_id in self.config["whitelist"]["user"]) or
             (not is_private and sender_id in self.config["whitelist"]["group"])):
             await self.get_random_media(event, "video")
+        else:
+            await event.send(event.plain_result("您或您的群组不在白名单列表，请联系管理员..."))
 
     @filter.command("xjj图片")
     async def random_picture(self, event: AstrMessageEvent):
@@ -53,6 +55,8 @@ class randomXJJPlugin(Star):
             (is_private and sender_id in self.config["whitelist"]["user"]) or
             (not is_private and sender_id in self.config["whitelist"]["group"])):
             await self.get_random_media(event, "image")
+        else:
+            await event.send(event.plain_result("您或您的群组不在白名单列表，请联系管理员..."))
 
     @filter.command("xjj")
     async def xjj_helper(self, event: AstrMessageEvent):
