@@ -47,3 +47,12 @@ api:
 
 download:
   cache_folder: "/app/sharedFolder" # 媒体文件需要下载时使用的保存路径
+
+whitelist:
+  enable: false
+  group: 
+    - 123456789
+    - 987654321
+  user:
+    - 123456789
+    - 987654321
